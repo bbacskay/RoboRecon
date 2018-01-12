@@ -1,2 +1,2 @@
-# RoboRecon
-This is the third iteration of the app that was originally called Cat5Scouting and then renamed to TheHindenburg.
+# TheHindenburg
+This is a mobile app developed by Team 3489, Category 5, to gather scouting data for FIRST Robotics Competition in the 2017 Season, SteamWorks
