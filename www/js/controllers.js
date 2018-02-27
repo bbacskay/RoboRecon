@@ -1,5 +1,6 @@
 angular.module('app.controllers', ['firebase', 'ngCordova'])
   
+/* Pit data not being collected in 2018
 .controller('pitScoutingCtrl', ['$scope', '$stateParams', '$firebaseArray',
 function ($scope, $stateParams, $firebaseArray) {
 
@@ -117,10 +118,8 @@ function ($scope, $stateParams, $firebaseArray) {
 
 
 
-/*
-    Clear all fields and hide all of those except the team question after the 
-    questioning is finished
-*/
+// Clear all fields and hide all of those except the team question after the 
+// questioning is finished
   $scope.submitPit = function() {
     $scope.team = 0;
     $scope.resetFields();
@@ -144,7 +143,7 @@ function ($scope, $stateParams, $firebaseArray) {
     $scope.PQ31 = 0;     
    }
 }])
-
+*/
 
    
 .controller('matchScoutingCtrl', ['$scope', '$stateParams', '$firebaseArray', '$firebaseObject', '$cordovaFile',
@@ -200,82 +199,23 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     return (($scope.teamSelected == true) && ($scope.scoutSelected == true) && ($scope.matchNumSelected == true));
   }
 
+
   
-  
-  $scope.textEntered = function(fieldName) {
-    $scope.EQ17.replace(/[\n\r]/, '');
-  }
-  
-  
-  
-  $scope.incGearCount = function() {
-      if (!$scope.TQ1) $scope.TQ1 = 0;
-      $scope.TQ1 = $scope.TQ1 + 1;
-      $scope.updateField('TQ1');
-  }
-  
-  
-  
-  $scope.decGearCount = function() {
-      if (!$scope.TQ1) $scope.TQ1 = 0;
-      if ($scope.TQ1 > 0) $scope.TQ1 = $scope.TQ1 - 1;
-      $scope.updateField('TQ1');
-  }
-  
-  
-  
-  $scope.inckPaCount = function(matchOrAuto) {
-    if (matchOrAuto == 'Auto') {
-      if (!$scope.AQ11) $scope.AQ11 = 0;
-      $scope.AQ11 = $scope.AQ11 + 1;
-      $scope.updateField('AQ11');
-      
-      //increment the Match value if the Auto value < Match value
-      if (!$scope.EQ18) $scope.EQ18 = 0;
-      if ($scope.AQ11 > $scope.EQ18) {
-        $scope.EQ18 = $scope.AQ11;
-        $scope.updateField('EQ18');
-      }
-    }
-    if (matchOrAuto == 'Match') {
-      if (!$scope.EQ18) $scope.EQ18 = 0;
-      $scope.EQ18 = $scope.EQ18 + 1;
-      $scope.updateField('EQ18');
-    }
-  }
-  
-  
-  
-  $scope.deckPaCount = function(matchOrAuto) {
-    if (matchOrAuto == 'Auto') {
-      if (!$scope.AQ11) $scope.AQ11 = 0;
-      if ($scope.AQ11 > 0) $scope.AQ11 = $scope.AQ11 - 1;
-      $scope.updateField('AQ11');
-    }
-    if (matchOrAuto == 'Match') {
-      if (!$scope.EQ18) $scope.EQ18 = 0;
-      if ($scope.EQ18 > 0) $scope.EQ18 = $scope.EQ18 - 1;
-      $scope.updateField('EQ18');
-    }
-  }
-  
-  
-  
+  /* Updated for season 2018 */
   $scope.updateField = function(fieldName) {
     var filePath = "file:///storage/emulated/0/";
     var saveData = $scope.teamSelected + "\t" + $scope.matchNumSelected + "\t"; 
     saveData += $scope.scoutSelected + "\t" + $scope.AQ1 + "\t" + $scope.AQ2;
-    saveData += "\t" + $scope.AQ3 + "\t" + $scope.AQ5 + "\t" + $scope.AQ10A;
-    saveData += "\t" + $scope.AQ10B + "\t" + $scope.AQ10C + "\t" + $scope.AQ11;
-    saveData += "\t" + $scope.TQ1 + "\t" + $scope.EQ11 + "\t" + $scope.EQ17;
-    saveData += "\t" + $scope.EQ18 + "\t" + $scope.HQ12 + "\r\n";
+    saveData += "\t" + $scope.AQ3 + "\t" + $scope.TQ1 + "\t" + $scope.TQ2;
+    saveData += "\t" + $scope.TQ3 + "\t" + $scope.EQ1 + "\t" + $scope.EQ2;
+    saveData += "\t" + $scope.EQ3 + "\r\n";
     $cordovaFile.writeFile(filePath, "Match-" + $scope.matchNum + "-Team-" + $scope.teamSelected + "-Scout-" + $scope.scoutSelected + ".csv", saveData, true)
       .then(function (success) {
-        console.log("Text successfully written to Pit Scouting file");
+        console.log("Text successfully written to Match Scouting file");
       }, function (error) {
-        console.log("Problem writing text to Pit file");
+        console.log("Problem writing text to Match file");
         console.log("Error message: " + JSON.stringify(error));
-      });  
+      });
       
     var refTeams = firebase.database().ref().child("Events/0/Matches/" + $scope.matchNum + "/Teams/" + $scope.team.number);
     var matches = $firebaseArray(refTeams);
@@ -287,82 +227,27 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
           matches.$add({"Student" : $scope.scout.name, "Team Number" : $scope.team.number, "Match Number" : $scope.matchNum});
         }
       } else {
-      
         if (fieldName == "Scout" && $scope.allIdFieldsSelected()) matches[0].Student = $scope.scout.name;
         
         if (fieldName == "AQ1") {
           matches[0].AQ1 = $scope.AQ1;
           if (matches[0].AQ1 == 0) {
-            //if the answer to AQ1 is no, then the same is true for AQ2-6
+            //if the answer to AQ1 is no, then the same is true for AQ2-3
             matches[0].AQ2 = "0";
             matches[0].AQ3 = "0";
-            matches[0].AQ5 = "0";
-            matches[0].AQ10A = "0";
-            matches[0].AQ10B = "0";
-            matches[0].AQ10C = "0";
-            matches[0].AQ11 = 0;
             $scope.AQ2 = "0";
             $scope.AQ3 = "0";
-            $scope.AQ5 = "0";
-            $scope.AQ10A = "0";
-            $scope.AQ10B = "0";
-            $scope.AQ10C = "0";
-            $scope.AQ11 = 0;
           }
         }
         
-        if (fieldName == "AQ2") {
-          matches[0].AQ2 = $scope.AQ2;
-          if (matches[0].AQ2 == 1) {
-            //if the answer to AQ2 is yes, then the same is true for AQ3
-            matches[0].AQ3 = "1";
-            $scope.AQ3 = "1";
-          }
-        }
-        
+        if (fieldName == "AQ2") matches[0].AQ2 = $scope.AQ2;
         if (fieldName == "AQ3") matches[0].AQ3 = $scope.AQ3;
-        if (fieldName == "AQ5") matches[0].AQ5 = $scope.AQ5;
-        if (fieldName == "AQ10A") {
-          matches[0].AQ10A = $scope.AQ10A;
-          matches[0].AQ10B = 0;
-          matches[0].AQ10C = 0;
-          //reset other checkboxes if this one is marked
-          if ($scope.AQ10A == 1) {
-            $scope.AQ10B = null;
-            $scope.AQ10C = null;
-          }
-        }
-        if (fieldName == "AQ10B") {
-          matches[0].AQ10A = 0;
-          matches[0].AQ10B = $scope.AQ10B;
-          matches[0].AQ10C = 0;
-          //reset other checkboxes if this one is marked
-          if ($scope.AQ10B == 1) {
-            $scope.AQ10A = null;
-            $scope.AQ10C = null;
-          }
-        }
-        if (fieldName == "AQ10C") {
-          matches[0].AQ10A = 0;
-          matches[0].AQ10B = 0;
-          matches[0].AQ10C = $scope.AQ10C;
-          //reset other checkboxes if this one is marked
-          if ($scope.AQ10C == 1) {
-            $scope.AQ10A = null;
-            $scope.AQ10B = null;
-          }
-        }
-        if (fieldName == "AQ11") {
-          matches[0].AQ11 = $scope.AQ11;
-        }
-  
         if (fieldName == "TQ1") matches[0].TQ1 = $scope.TQ1;
-
-        if (fieldName == "EQ11") matches[0].EQ11 = $scope.EQ11;
-        if (fieldName == "EQ17") matches[0].EQ17 = $scope.EQ17.replace(/(\r\n|\n|\r)/gm," ");
-        if (fieldName == "EQ18") matches[0].EQ18 = $scope.EQ18;
-  
-        if (fieldName == "HQ12") matches[0].HQ12 = $scope.HQ12;
+        if (fieldName == "TQ2") matches[0].TQ2 = $scope.TQ2;
+        if (fieldName == "TQ3") matches[0].TQ3 = $scope.TQ3;
+        if (fieldName == "EQ1") matches[0].EQ1 = $scope.EQ1;
+        if (fieldName == "EQ2") matches[0].EQ2 = $scope.EQ2;
+        if (fieldName == "EQ3") matches[0].EQ3 = $scope.EQ3;
       }
       matches.$save(0);
     }).catch(function(error) {
@@ -371,7 +256,8 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
   }
   
   
-  
+
+  /* Updated for season 2018 */
   $scope.submitData = function() {
     //resends all of the data collected to ensure all adds/updates are captured
     $scope.updateField("Scout");
@@ -379,16 +265,12 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     $scope.updateField("AQ1");
     $scope.updateField("AQ2");
     $scope.updateField("AQ3");
-    $scope.updateField("AQ5");
-    $scope.updateField("AQ10A");
-    $scope.updateField("AQ10B");
-    $scope.updateField("AQ10C");
-    $scope.updateField("AQ11");
     $scope.updateField("TQ1");
-    $scope.updateField("EQ11");
-    $scope.updateField("EQ17");
-    $scope.updateField("EQ18");
-    $scope.updateField("HQ12");
+    $scope.updateField("TQ2");
+    $scope.updateField("TQ3");
+    $scope.updateField("EQ1");
+    $scope.updateField("EQ2");
+    $scope.updateField("EQ3");
   }
   
   
@@ -420,6 +302,7 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     Clear all fields and hide all of those except the team and match after a match
     concludes
   */
+  /* Updated for season 2018 */
   $scope.clearFields = function() {
     $scope.team = null;
     $scope.selectedRobot = null;
@@ -427,32 +310,86 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     $scope.AQ1 = 0;
     $scope.AQ2 = 0;
     $scope.AQ3 = 0;
-    $scope.AQ5 = 0;
-    $scope.AQ10A = 0;
-    $scope.AQ10B = 0;
-    $scope.AQ10C = 0;
-    $scope.AQ11 = 0;
     $scope.TQ1 = 0;
-    $scope.EQ11 = 0;
-    $scope.EQ17 = "";
-    $scope.EQ18 = 0;
-    $scope.HQ12 = 0;
+    $scope.TQ2 = 0;
+    $scope.TQ3 = 0;
+    $scope.EQ1 = 0;
+    $scope.EQ2 = 0;
+    $scope.EQ3 = "";
   };
+  
+  
+  
+  $scope.incSwitchCount = function() {
+    if (!$scope.TQ1) $scope.TQ1 = 0;
+    $scope.TQ1 = $scope.TQ1 + 1;
+    $scope.updateField('TQ1');
+  }
+
+  
+
+  $scope.decSwitchCount = function() {
+    if (!$scope.TQ1) $scope.TQ1 = 0;
+    if ($scope.TQ1 > 0) $scope.TQ1 = $scope.TQ1 - 1;
+    $scope.updateField('TQ1');
+  }
+
+
+
+  $scope.incScaleCount = function() {
+    if (!$scope.TQ2) $scope.TQ2 = 0;
+    $scope.TQ2 = $scope.TQ2 + 1;
+    $scope.updateField('TQ2');
+  }
+
+  
+
+  $scope.decScaleCount = function() {
+    if (!$scope.TQ2) $scope.TQ2 = 0;
+    if ($scope.TQ2 > 0) $scope.TQ2 = $scope.TQ2 - 1;
+    $scope.updateField('TQ2');
+  }
+
+
+
+  $scope.incVaultCount = function() {
+    if (!$scope.TQ3) $scope.TQ3 = 0;
+    $scope.TQ3 = $scope.TQ3 + 1;
+    $scope.updateField('TQ3');
+  }
+
+  
+
+  $scope.decVaultCount = function() {
+    if (!$scope.TQ3) $scope.TQ3 = 0;
+    if ($scope.TQ3 > 0) $scope.TQ3 = $scope.TQ3 - 1;
+    $scope.updateField('TQ3');
+  }
+
 }])
    
 .controller('synchronizeCtrl', ['$scope', '$stateParams', '$firebaseArray', '$cordovaFile', '$cordovaToast', 
   function ($scope, $stateParams, $firebaseArray, $cordovaFile, $cordovaToast) {
+  
+  
     
   $scope.importScouts = function() {
     alert("The scout-importing function is not available, yet");
   }
   
+  
+  
   $scope.importTeams = function() {
     alert("The team-importing function is not available, yet");
   }
   
+  
+  
+  /* Updated for season 2018 */
   $scope.exportData = function() {
     var filePath = "file:///storage/emulated/0/";
+    
+    /* Pit data not being collected in 2018
     var exportPitData = "Team #\tPQ3\tPQ6\tPQ10\tPQ13\tPQ14A\tPQ14B\tPQ14C\t";
     exportPitData += "PQ15\tPQ27A\tPQ27B\tPQ27C\tPQ30\tPQ31\r\n";
     
@@ -525,10 +462,11 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
           console.log("Error message: " + JSON.stringify(error));
         });  
     });
+    */
     
     
-    var exportMatchData = "Team #\tMatch #\tScout\tAQ1\tAQ2\tAQ3\tAQ5\t";
-    exportMatchData += "AQ10A\tAQ10B\tAQ10C\tAQ11\tTQ1\tEQ11\tEQ17\tEQ18\tHQ12\r\n";
+    var exportMatchData = "Team #\tMatch #\tScout\tAQ1\tAQ2\tAQ3\t";
+    exportMatchData += "TQ1\tTQ2\tTQ3\tEQ1\tEQ2\tEQ3\r\n";
 
     var refMatches = firebase.database().ref().child("Events/0/Matches");
     var matches = $firebaseArray(refMatches);
@@ -550,45 +488,27 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
             exportMatchData += "\t";
             if (robotMatch["AQ3"]) exportMatchData += robotMatch["AQ3"];
             exportMatchData += "\t";
-            if (robotMatch["AQ5"]) exportMatchData += robotMatch["AQ5"];
-            exportMatchData += "\t";
-            if (robotMatch["AQ10A"]) {
-              exportMatchData += "1";
-            } else {
-              exportMatchData += "0";
-            }
-            exportMatchData += "\t";
-            if (robotMatch["AQ10B"]) {
-              exportMatchData += "1";
-            } else {
-              exportMatchData += "0";
-            }
-            exportMatchData += "\t";
-            if (robotMatch["AQ10C"]) {
-              exportMatchData += "1";
-            } else {
-              exportMatchData += "0";
-            }
-            exportMatchData += "\t";
-            if (robotMatch["AQ11"]) exportMatchData += robotMatch["AQ11"];
-            exportMatchData += "\t";
             if (robotMatch["TQ1"]) exportMatchData += robotMatch["TQ1"];
             exportMatchData += "\t";
-            if (robotMatch["EQ11"]) exportMatchData += robotMatch["EQ11"];
+            if (robotMatch["TQ2"]) exportMatchData += robotMatch["TQ2"];
             exportMatchData += "\t";
-            if (robotMatch["EQ17"]) exportMatchData += robotMatch["EQ17"];
+            if (robotMatch["TQ3"]) exportMatchData += robotMatch["TQ3"];
             exportMatchData += "\t";
-            if (robotMatch["EQ18"]) exportMatchData += robotMatch["EQ18"];
+            if (robotMatch["EQ1"]) exportMatchData += robotMatch["EQ1"];
             exportMatchData += "\t";
-            if (robotMatch["HQ12"]) exportMatchData += robotMatch["HQ12"];
+            if (robotMatch["EQ2"]) exportMatchData += robotMatch["EQ2"];
+            exportMatchData += "\t";
+            if (robotMatch["EQ3"]) exportMatchData += robotMatch["EQ3"];
             exportMatchData += "\r\n";
           })  
         })
       })
     })
     .then(function() {
-      //load the export data into the text field
+      //load the export data into the text field\
+      /* Pit data not being collected in 2018
       $scope.exportPitData = exportPitData;
+      */
       $scope.exportMatchData = exportMatchData;
     })
     .then(function() {
@@ -617,10 +537,10 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     
   /* This method will pull together an overview for each match, including the
    * match number, team number, scout name, and the % of the following questions
-   * that have been answered: AQ1, AQ2, AQ3, AQ5, AQ10A, AQ10B, AQ10C, AQ11, 
-   * TQ1, EQ11, and HQ12 
+   * that have been answered: AQ1, AQ2, AQ3, EQ1, EQ2, and EQ3
    */
    
+
 
   $scope.refresh = function() {
     var refMatches = firebase.database().ref().child("Events/0/Matches");
@@ -645,7 +565,7 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
               scoutRecord.teamNum = robotMatch['Team Number'];
               
               //determine the % of critical questions answered
-              var unanswered = ["AQ1", "AQ2", "AQ3", "AQ5", "AQ10 A/B/C", "AQ11", "TQ1", "EQ11", "EQ18", "HQ12"];
+              var unanswered = ["AQ1", "AQ2", "AQ3", "EQ1", "EQ2"];
               if (robotMatch.AQ1 != null) {
                 var index = unanswered.indexOf("AQ1");
                 if (index > -1) {
@@ -664,50 +584,32 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
                   unanswered.splice(index, 1);
                 }
               }
-              if (robotMatch.AQ5 != null) {
-                var index = unanswered.indexOf("AQ5");
-                if (index > -1) {
-                  unanswered.splice(index, 1);
-                }
-              }
-              //if one of the checkboxes is marked, or AQ2 is false
-              if ((robotMatch.AQ10A != null) || 
-                  (robotMatch.AQ10B != null) || 
-                  (robotMatch.AQ10C != null) ||
-                  (robotMatch.AQ2 == 0)) {
-                var index = unanswered.indexOf("AQ10 A/B/C");
-                if (index > -1) {
-                  unanswered.splice(index, 1);
-                }
-              }
-              if (robotMatch.AQ11 != null) {
-                var index = unanswered.indexOf("AQ11");
-                if (index > -1) {
-                  unanswered.splice(index, 1);
-                }
-              }
               if (robotMatch.TQ1 != null) {
                 var index = unanswered.indexOf("TQ1");
                 if (index > -1) {
                   unanswered.splice(index, 1);
                 }
               }
-              if (robotMatch.EQ11 != null) {
-                var index = unanswered.indexOf("EQ11");
+              if (robotMatch.TQ2 != null) {
+                var index = unanswered.indexOf("TQ2");
                 if (index > -1) {
                   unanswered.splice(index, 1);
                 }
               }
-              //If EQ18 is answered, or AQ5 is false
-              if ((robotMatch.EQ18 != null) ||
-                  (robotMatch.AQ5 == 0)) {
-                var index = unanswered.indexOf("EQ18");
+              if (robotMatch.TQ3 != null) {
+                var index = unanswered.indexOf("TQ3");
                 if (index > -1) {
                   unanswered.splice(index, 1);
                 }
               }
-              if (robotMatch.HQ12 != null) {
-                var index = unanswered.indexOf("HQ12");
+              if (robotMatch.EQ1 != null) {
+                var index = unanswered.indexOf("EQ1");
+                if (index > -1) {
+                  unanswered.splice(index, 1);
+                }
+              }
+              if (robotMatch.EQ2 != null) {
+                var index = unanswered.indexOf("EQ2");
                 if (index > -1) {
                   unanswered.splice(index, 1);
                 }
@@ -729,9 +631,8 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
   }
   
   $scope.refresh();
-  $interval($scope.refresh, 5000); 
+  $interval($scope.refresh, 5000);
   
 }])
    
 .controller('menuCtrl', ['$scope', '$stateParams', function ($scope, $stateParams) { }]);
- 
