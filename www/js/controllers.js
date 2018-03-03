@@ -482,21 +482,47 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
             exportMatchData += "\t";
             if (robotMatch["Student"]) exportMatchData += robotMatch["Student"];
             exportMatchData += "\t";
-            if (robotMatch["AQ1"]) exportMatchData += robotMatch["AQ1"];
+            if (robotMatch["AQ1"]) {
+              exportMatchData += robotMatch["AQ1"];
+            } else {
+              exportMatchData += "0"
+            }
             exportMatchData += "\t";
-            if (robotMatch["AQ2"]) exportMatchData += robotMatch["AQ2"];
+            if (robotMatch["AQ2"]) {
+              exportMatchData += robotMatch["AQ2"];
+            } else {
+              exportMatchData += "0";
+            }
             exportMatchData += "\t";
-            if (robotMatch["AQ3"]) exportMatchData += robotMatch["AQ3"];
+            if (robotMatch["AQ3"]) {
+              exportMatchData += robotMatch["AQ3"];
+            } else {
+              exportMatchData += "0";
+            }
             exportMatchData += "\t";
-            if (robotMatch["TQ1"]) exportMatchData += robotMatch["TQ1"];
+            if (robotMatch["TQ1"]) {
+              exportMatchData += robotMatch["TQ1"];
+            }
             exportMatchData += "\t";
-            if (robotMatch["TQ2"]) exportMatchData += robotMatch["TQ2"];
+            if (robotMatch["TQ2"]) {
+              exportMatchData += robotMatch["TQ2"];
+            }
             exportMatchData += "\t";
-            if (robotMatch["TQ3"]) exportMatchData += robotMatch["TQ3"];
+            if (robotMatch["TQ3"]) {
+              exportMatchData += robotMatch["TQ3"];
+            }
             exportMatchData += "\t";
-            if (robotMatch["EQ1"]) exportMatchData += robotMatch["EQ1"];
+            if (robotMatch["EQ1"]) {
+              exportMatchData += robotMatch["EQ1"];
+            } else {
+              exportMatchData += "0";
+            }
             exportMatchData += "\t";
-            if (robotMatch["EQ2"]) exportMatchData += robotMatch["EQ2"];
+            if (robotMatch["EQ2"]) {
+              exportMatchData += robotMatch["EQ2"];
+            } else {
+              exportMatchData += "0";
+            }
             exportMatchData += "\t";
             if (robotMatch["EQ3"]) exportMatchData += robotMatch["EQ3"];
             exportMatchData += "\r\n";
