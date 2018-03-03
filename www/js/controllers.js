@@ -524,7 +524,11 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
               exportMatchData += "0";
             }
             exportMatchData += "\t";
-            if (robotMatch["EQ3"]) exportMatchData += robotMatch["EQ3"];
+            if (robotMatch["EQ3"]) {
+              exportMatchData += "\"" + robotMatch["EQ3"].replace(/[\n\r]+/g, ' ') + "\"";
+            }
+
+            // End of line
             exportMatchData += "\r\n";
           })  
         })
