@@ -279,6 +279,7 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     //Do something about a team/match#/scout having been selected
     if ($scope.team) {
       $scope.teamSelected = true;
+      $scope.loadNotes();
     } else {
       $scope.teamSelected = false;
     }
@@ -364,6 +365,36 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     if (!$scope.TQ3) $scope.TQ3 = 0;
     if ($scope.TQ3 > 0) $scope.TQ3 = $scope.TQ3 - 1;
     $scope.updateField('TQ3');
+  }
+
+  $scope.loadNotes = function() {
+    var refMatches = firebase.database().ref().child("Events/0/Matches");
+    var matches = $firebaseArray(refMatches);
+
+    matches.$loaded().then(function(matches) {
+      $scope.notes = [];
+      
+      if ($scope.team) {
+        teamno = $scope.team.number;
+      
+        angular.forEach(matches, function(match) {
+          var matchTeams = match["Teams"];
+          if (teamno in matchTeams) {
+            angular.forEach(matchTeams[teamno], function(scoutingData) {
+              var noteRecord = {};
+              noteRecord.MatchNo = match.$id;
+              noteRecord.Scout = scoutingData.Student;
+              if ("EQ3" in scoutingData) {
+                noteRecord.Note = scoutingData.EQ3;
+                $scope.notes.push(noteRecord);
+              }
+            })
+          
+          
+          }
+        })
+      }
+    })
   }
 
 }])
