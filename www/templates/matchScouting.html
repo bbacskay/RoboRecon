@@ -147,11 +147,8 @@
                 placeholder=""
                 rows="5"></textarea>
             </label>
-
           </div>
         </div>
-        
-        
         
         <div style="float:left">
           <button
@@ -164,7 +161,21 @@
             ng-click="clearFields()">Clear the Fields</button>
         </div>
         
-          
+        <div class="row" ng-show="allIdFieldsSelected()">
+          <div class="col col-100">
+            <div class="item item-divider">Previous notes</div>
+          </div>
+        </div>
+        <div class="row header" ng-show="allIdFieldsSelected()">
+          <div class="col col-10">Match No</div>
+          <div class="col col-10">Scout's name</div>
+          <div class="col col-80">Note</div>
+        </div>
+        <div class="row" ng-repeat="x in notes" ng-show="allIdFieldsSelected()">
+          <div class="col col-10">{{x.MatchNo}}</div>
+          <div class="col col-10">{{x.Scout}}</div>
+          <div class="col col-80">{{x.Note}}</div>
+        </div>
       </form>
     </div>
   </ion-content>
