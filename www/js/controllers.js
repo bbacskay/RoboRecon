@@ -384,7 +384,7 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
               var noteRecord = {};
               noteRecord.MatchNo = match.$id;
               noteRecord.Scout = scoutingData.Student;
-              if ("EQ3" in scoutingData) {
+              if (("EQ3" in scoutingData) && (scoutingData.EQ3 != "")) {
                 noteRecord.Note = scoutingData.EQ3;
                 $scope.notes.push(noteRecord);
               }

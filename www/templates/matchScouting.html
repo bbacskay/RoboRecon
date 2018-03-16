@@ -128,7 +128,7 @@
             </label>
             
             <label class="item item-select" id="EQ2" name="EQ2">
-              <span class="input-label">Points from boss?</span>
+              <span class="input-label">All three scaled?</span>
               <select
                 id="EQ2"
                 ng-model="EQ2"
@@ -147,34 +147,32 @@
                 placeholder=""
                 rows="5"></textarea>
             </label>
+            
+            <div class="item item-divider">Previous Notes</div>
+
+            <div class="row header item" ng-show="allIdFieldsSelected()">
+              <div class="col col-10">Match</div>
+              <div class="col col-80">Note</div>
+            </div>
+            <div class="row item item-text-wrap" ng-repeat="x in notes" ng-show="allIdFieldsSelected()">
+              <div class="col col-10">{{x.MatchNo}}</div>
+              <div class="col col-80">{{x.Note}}</div>
+            </div>
+            
           </div>
         </div>
-        
-        <div style="float:left">
-          <button
-            class="button button-balanced button-block"
-            ng-click="submitData()">Submit the Data</button>
-        </div>
-        <div style="float:right">
-          <button
-            class="button button-balanced button-block"
-            ng-click="clearFields()">Clear the Fields</button>
-        </div>
-        
-        <div class="row" ng-show="allIdFieldsSelected()">
-          <div class="col col-100">
-            <div class="item item-divider">Previous notes</div>
+
+        <div class="row">        
+          <div style="float:left">
+            <button
+              class="button button-balanced button-block"
+              ng-click="submitData()">Submit the Data</button>
+          </div>&nbsp;
+          <div style="float:right">
+            <button
+              class="button button-balanced button-block"
+              ng-click="clearFields()">Clear the Fields</button>
           </div>
-        </div>
-        <div class="row header" ng-show="allIdFieldsSelected()">
-          <div class="col col-10">Match No</div>
-          <div class="col col-10">Scout's name</div>
-          <div class="col col-80">Note</div>
-        </div>
-        <div class="row" ng-repeat="x in notes" ng-show="allIdFieldsSelected()">
-          <div class="col col-10">{{x.MatchNo}}</div>
-          <div class="col col-10">{{x.Scout}}</div>
-          <div class="col col-80">{{x.Note}}</div>
         </div>
       </form>
     </div>
