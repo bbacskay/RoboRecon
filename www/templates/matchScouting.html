@@ -80,37 +80,43 @@
             
             <div class="item item-divider">Teleop</div>
       
-            <div class="item item-input">
+            <div class="item item-select">
               <span class="input-label"># Cubes/Switch</span>
-              <button
-                class="button button-small button-assertive icon ion-minus"
-                ng-click="decSwitchCount()"></button>
-              &nbsp;&nbsp;{{TQ1}}&nbsp;&nbsp;
-              <button
-                class="button button-small button-balanced icon ion-plus"
-                ng-click="incSwitchCount()"></button>
+              <select
+                id="TQ1"
+                ng-model="TQ1"
+                ng-change="updateField('TQ1')">
+                <option value="4">Excellent</option>
+                <option value="3">Above Average</option>
+                <option value="2">Below Average</option>
+                <option value="1">Poor</option>
+              </select>
             </div>
             
-            <div class="item item-input">
+            <div class="item item-select">
               <span class="input-label"># Cubes/Scale</span>
-              <button
-                class="button button-small button-assertive icon ion-minus"
-                ng-click="decScaleCount()"></button>
-              &nbsp;&nbsp;{{TQ2}}&nbsp;&nbsp;
-              <button
-                class="button button-small button-balanced icon ion-plus"
-                ng-click="incScaleCount()"></button>
+              <select
+                id="TQ2"
+                ng-model="TQ2"
+                ng-change="updateField('TQ2')">
+                <option value="4">Excellent</option>
+                <option value="3">Above Average</option>
+                <option value="2">Below Average</option>
+                <option value="1">Poor</option>
+              </select>
             </div>
             
-            <div class="item item-input">
+            <div class="item item-select">
               <span class="input-label"># Cubes/Vault</span>
-              <button
-                class="button button-small button-assertive icon ion-minus"
-                ng-click="decVaultCount()"></button>
-              &nbsp;&nbsp;{{TQ3}}&nbsp;&nbsp;
-              <button
-                class="button button-small button-balanced icon ion-plus"
-                ng-click="incVaultCount()"></button>
+              <select
+                id="TQ3"
+                ng-model="TQ3"
+                ng-change="updateField('TQ3')">
+                <option value="4">Excellent</option>
+                <option value="3">Above Average</option>
+                <option value="2">Below Average</option>
+                <option value="1">Poor</option>
+              </select>
             </div>
           </div>
           <div class="col col-50">
