@@ -32,17 +32,13 @@
     <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
     
     <script src="https://www.gstatic.com/firebasejs/3.6.10/firebase.js"></script>
-    <script>
-      // Initialize Firebase
-      var config = {
-        /* Team 3489 & 342 */
-        apiKey: "AIzaSyCSWovxL9i83nn4vZf6byIW8WwSK72fX-Q",
-        authDomain: "thehindenburg-628dd.firebaseapp.com",
-        databaseURL: "https://thehindenburg-628dd.firebaseio.com",
-        storageBucket: "thehindenburg-628dd.appspot.com",
-        messagingSenderId: "472094950060"
-      };
-      firebase.initializeApp(config);
+
+    <!-- Load Firebase config-->
+    <script src="js/config.js"></script>
+
+    <!-- Init Firebase-->
+    <script>  
+      firebase.initializeApp(firebaseConfig);
     </script>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet"/>
     <link href="css/style.css" rel="stylesheet"/>
