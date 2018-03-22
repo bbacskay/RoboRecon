@@ -30,6 +30,11 @@ In addition to writing code and optionally contributing it to the code base, you
 * Write or record video for tutorials for other teams to follow for how to set up the environment
 * Share the questions that you will set up your copy of the app to ask
 
+## Installation
+
+Install the required dependencies with bower:
+bower install
+
 ## Contact
 
 To contact the Category 5 app development team to ask questions or provide feedback, there are several avenues:
