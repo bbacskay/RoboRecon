@@ -5,3 +5,4 @@ node_modules/
 platforms/
 plugins/
 package-lock.json
+www/js/config.js
