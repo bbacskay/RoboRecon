@@ -418,8 +418,8 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
 
 }])
    
-.controller('synchronizeCtrl', ['$scope', '$stateParams', '$firebaseArray', '$cordovaFile', '$cordovaToast', 
-  function ($scope, $stateParams, $firebaseArray, $cordovaFile, $cordovaToast) {
+.controller('synchronizeCtrl', ['$scope', '$stateParams', '$firebaseArray', '$firebaseObject', '$cordovaFile', '$cordovaToast', 
+  function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile, $cordovaToast) {
   
   
     
@@ -605,6 +605,17 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     });
   }
   
+  $scope.loadNumMatches = function() {
+    var ref = firebase.database().ref().child("Events/0/");
+    var obj = $firebaseObject(ref);
+    obj.$loaded().then(function() {
+      $scope.numMatches = obj.numMatches;
+    }).catch(function(error) {
+      console.log("Error:", error);
+    });
+  }
+  $scope.loadNumMatches();
+
   $scope.setNumMatches = function() {
     var refMatchNum = firebase.database().ref().child("Events/0");
     refMatchNum.update({"numMatches" : $scope.numMatches});
