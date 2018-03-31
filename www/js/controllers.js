@@ -153,14 +153,28 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     var ref = firebase.database().ref().child("Events/0/");
     var obj = $firebaseObject(ref);
     obj.$loaded().then(function() {
-      $scope.numMatches = new Array(obj.numMatches);
+      // actMatch's value must be between 2 and numMaches
+      if ( (obj.actMatch > 1) && (obj.actMatch<=obj.numMatches) ) {
+        $scope.actMatch = obj.actMatch;
+      } else {
+        if (obj.actMatch < 2) {
+          $scope.actMatch = 2;
+        } else {
+          $scope.actMatch = obj.numMatches;
+        }
+      }
+      
+      $scope.numMatches = new Array(obj.numMatches-$scope.actMatch+2);
+      for (i=0;i<$scope.numMatches.length;i++) {
+        $scope.numMatches[i] = $scope.actMatch-1 + i;
+      }
     }).catch(function(error) {
       console.log("Error:", error);
     });
   }
   $scope.loadNumMatches();
-  
-  
+
+
 
   $scope.loadTeamsIntoMemory = function() {
     var refTeams = firebase.database().ref().child("Events/0/Teams/");
@@ -280,6 +294,9 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     $scope.updateField("EQ1");
     $scope.updateField("EQ2");
     $scope.updateField("EQ3");
+
+    // Refresh actual match number
+    $scope.loadNumMatches();
   }
   
   
@@ -328,6 +345,8 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     $scope.EQ1 = 0;
     $scope.EQ2 = 0;
     $scope.EQ3 = "";
+
+    $scope.loadNumMatches();
   };
   
   
