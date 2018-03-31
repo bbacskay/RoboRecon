@@ -206,7 +206,8 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     var filePath = "file:///storage/emulated/0/";
     var saveData = $scope.teamSelected + "\t" + $scope.matchNumSelected + "\t"; 
     saveData += $scope.scoutSelected + "\t" + $scope.AQ1 + "\t" + $scope.AQ2;
-    saveData += "\t" + $scope.AQ3 + "\t" + $scope.TQ1 + "\t" + $scope.TQ2;
+    saveData += "\t" + $scope.AQ3 + "\t"+ $scope.AQ4 + "\t" + $scope.AQ5;
+    saveData += "\t" + $scope.TQ1 + "\t" + $scope.TQ2;
     saveData += "\t" + $scope.TQ3 + "\t" + $scope.EQ1 + "\t" + $scope.EQ2;
     saveData += "\t" + $scope.EQ3 + "\r\n";
     $cordovaFile.writeFile(filePath, "Match-" + $scope.matchNum + "-Team-" + $scope.teamSelected + "-Scout-" + $scope.scoutSelected + ".csv", saveData, true)
@@ -232,16 +233,22 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
         if (fieldName == "AQ1") {
           matches[0].AQ1 = $scope.AQ1;
           if (matches[0].AQ1 == 0) {
-            //if the answer to AQ1 is no, then the same is true for AQ2-3
+            //if the answer to AQ1 is no, then the same is true for AQ2-4. and AQ5 is zero
             matches[0].AQ2 = "0";
             matches[0].AQ3 = "0";
+            matches[0].AQ4 = "0";
+            matches[0].AQ5 = "0";
             $scope.AQ2 = "0";
             $scope.AQ3 = "0";
+            $scope.AQ4 = "0";
+            $scope.AQ5 = "0";
           }
         }
         
         if (fieldName == "AQ2") matches[0].AQ2 = $scope.AQ2;
         if (fieldName == "AQ3") matches[0].AQ3 = $scope.AQ3;
+        if (fieldName == "AQ4") matches[0].AQ4 = $scope.AQ4;
+        if (fieldName == "AQ5") matches[0].AQ5 = $scope.AQ5;
         if (fieldName == "TQ1") matches[0].TQ1 = $scope.TQ1;
         if (fieldName == "TQ2") matches[0].TQ2 = $scope.TQ2;
         if (fieldName == "TQ3") matches[0].TQ3 = $scope.TQ3;
@@ -265,6 +272,8 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     $scope.updateField("AQ1");
     $scope.updateField("AQ2");
     $scope.updateField("AQ3");
+    $scope.updateField("AQ4");
+    $scope.updateField("AQ5");
     $scope.updateField("TQ1");
     $scope.updateField("TQ2");
     $scope.updateField("TQ3");
@@ -311,6 +320,8 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     $scope.AQ1 = 0;
     $scope.AQ2 = 0;
     $scope.AQ3 = 0;
+    $scope.AQ4 = 0;
+    $scope.AQ5 = 0;
     $scope.TQ1 = 0;
     $scope.TQ2 = 0;
     $scope.TQ3 = 0;
@@ -496,7 +507,7 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     */
     
     
-    var exportMatchData = "Team #\tMatch #\tScout\tAQ1\tAQ2\tAQ3\t";
+    var exportMatchData = "Team #\tMatch #\tScout\tAQ1\tAQ2\tAQ3\tAQ4\tAQ5\t";
     exportMatchData += "TQ1\tTQ2\tTQ3\tEQ1\tEQ2\tEQ3\r\n";
 
     var refMatches = firebase.database().ref().child("Events/0/Matches");
@@ -527,6 +538,18 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
             exportMatchData += "\t";
             if (robotMatch["AQ3"]) {
               exportMatchData += robotMatch["AQ3"];
+            } else {
+              exportMatchData += "0";
+            }
+            exportMatchData += "\t";
+            if (robotMatch["AQ4"]) {
+              exportMatchData += robotMatch["AQ4"];
+            } else {
+              exportMatchData += "0";
+            }
+            exportMatchData += "\t";
+            if (robotMatch["AQ5"]) {
+              exportMatchData += robotMatch["AQ5"];
             } else {
               exportMatchData += "0";
             }
@@ -598,7 +621,7 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     
   /* This method will pull together an overview for each match, including the
    * match number, team number, scout name, and the % of the following questions
-   * that have been answered: AQ1, AQ2, AQ3, EQ1, EQ2, and EQ3
+   * that have been answered: AQ1, AQ2, AQ3, AQ4, AQ5, EQ1, EQ2, and EQ3
    */
    
 
@@ -625,7 +648,9 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
               scoutRecord.name = robotMatch['Student'];
               scoutRecord.teamNum = robotMatch['Team Number'];
               
-              //determine the % of critical questions answered
+              /* determine the % of critical questions answered
+               * removed this section in 2018 but might add it back in in later 
+               * years
               var unanswered = ["AQ1", "AQ2", "AQ3", "EQ1", "EQ2"];
               if (robotMatch.AQ1 != null) {
                 var index = unanswered.indexOf("AQ1");
@@ -679,6 +704,7 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
                 unanswered.push("None");
               }
               scoutRecord.unanswered = unanswered;
+              */
               thisMatchOverview['scouts'].push(scoutRecord);
             }
           })

@@ -44,7 +44,7 @@
         <div class="row">
           <div class="col col-50">
             <div class="item item-divider">Autonomous</div>
-
+            
             <label class="item item-select">
               <span class="input-label">Autonomous?</span>
               <select
@@ -53,6 +53,7 @@
                 ng-change="updateField('AQ1')"> 
                 <option value="2">Yes</option>
                 <option value="1">No</option>
+                <option value=""></option>
               </select>
             </label>
             
@@ -64,17 +65,44 @@
                 ng-change="updateField('AQ2')">
                 <option value="2">Yes</option>
                 <option value="1">No</option>
+                <option value=""></option>
               </select>
             </label>
     
             <label class="item item-select">
-              <span class="input-label">Placed cube?</span>
+              <span class="input-label">Cube in Switch?</span>
               <select
                 id="AQ3"
                 ng-model="AQ3"
                 ng-change="updateField('AQ3')">
                 <option value="2">Yes</option>
                 <option value="1">No</option>
+                <option value=""></option>
+              </select>
+            </label>
+            
+            <label class="item item-select">
+              <span class="input-label">Cube in Scale?</span>
+              <select
+                id="AQ4"
+                ng-model="AQ4"
+                ng-change="updateField('AQ4')">
+                <option value="2">Yes</option>
+                <option value="1">No</option>
+                <option value=""></option>
+              </select>
+            </label>
+            
+            <label class="item item-select">
+              <span class="input-label">Number of cubes?</span>
+              <select
+                id="AQ5"
+                ng-model="AQ5"
+                ng-change="updateField('AQ5')">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
               </select>
             </label>
             
