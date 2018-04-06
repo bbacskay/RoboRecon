@@ -1,0 +1,41 @@
+<ion-view title="Team Manager">
+  <ion-content padding="true" class="has-header">
+    <div ng-controller="teamManagerCtrl" class="padding">
+      <div class="row">
+        <div class="col col-50">
+          <ion-scroll direction="y" style="height:85vh">
+            <ion-card ng-repeat="team in teamList | orderBy:'number'">
+              <div ng-if="team != null">
+                <div class="row">
+                  <div class="col col-80">
+                    <b>#{{team.number}}</b> {{team.name}}
+                  </div>
+                  <div class="col col-20">
+                    <button class="button icon ion-trash-a" ng-click="deleteTeam({{team.number}})"></button>
+                  </div>
+                </div>
+              </div>
+            </ion-card>
+          </ion-scroll>
+        </div>
+        <div class="col col-50">
+          <div class="list">
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Team number</span>
+              <input type="text" placeholder="####">
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Team name</span>
+              <input type="text" placeholder="Team name">
+            </label>
+          </div>
+          <div class="row">
+              <div class="col col-100">
+                <button class="button icon-left ion-plus-round">Add</button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
