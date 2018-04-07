@@ -19,21 +19,23 @@
           </ion-scroll>
         </div>
         <div class="col col-50">
-          <div class="list">
-            <label class="item item-input item-stacked-label">
-              <span class="input-label">Team number</span>
-              <input type="text" placeholder="####">
-            </label>
-            <label class="item item-input item-stacked-label">
-              <span class="input-label">Team name</span>
-              <input type="text" placeholder="Team name">
-            </label>
-          </div>
-          <div class="row">
+          <form name="teamEditForm" novalidate>
+            <div class="list">
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Team number</span>
+                <input name= "inTeamNumber" ng-model="inTeamNumber" type="text" placeholder="####" ng-maxlength="4" required>
+              </label>
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Team name</span>
+                <input name="inTeamName" ng-model="inTeamName" type="text" placeholder="Team name" required>
+              </label>
+            </div>
+            <div class="row">
               <div class="col col-100">
-                <button class="button icon-left ion-plus-round">Add</button>
+                <button class="button icon-left ion-plus-round" ng-disabled="teamEditForm.$invalid" ng-click="saveTeam(inTeamNumber,inTeamName)" >Add</button>
               </div>
             </div>
+          </form>
         </div>
       </div>
     </div>

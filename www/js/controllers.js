@@ -752,7 +752,7 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
   
 }])
 
-.controller('teamManagerCtrl', ['$scope', '$stateParams', '$firebaseArray', '$cordovaFile', '$cordovaToast', '$interval',
+.controller('teamManagerCtrl', ['$scope', '$stateParams', '$firebaseArray', '$interval',
   function ($scope, $stateParams, $firebaseArray, $interval) {
 
     $scope.loadTeamList = function() {
@@ -781,6 +781,11 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
         $scope.loadTeamList();
         return true;
       });
+    }
+    
+    $scope.saveTeam = function(teamNo, teamName) {
+      alert("Teszt: TeamNo=" + teamNo + " Name=" + teamName);
+      
     }
 
 }])
