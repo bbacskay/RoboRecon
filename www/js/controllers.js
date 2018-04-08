@@ -814,6 +814,11 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
       })
     }
 
+    $scope.modifyTeam = function(teamIndex) {
+      $scope.inTeamNumber = $scope.teamList[teamIndex].number;
+      $scope.inTeamName   = $scope.teamList[teamIndex].name;
+    }
+
 }])
    
 .controller('menuCtrl', ['$scope', '$stateParams', function ($scope, $stateParams) { }]);

@@ -7,10 +7,11 @@
             <ion-card ng-repeat="team in teamList | orderBy:'number'">
               <div ng-if="team != null">
                 <div class="row">
-                  <div class="col col-80">
+                  <div class="col col-75">
                     <b>#{{team.number}}</b> {{team.name}}
                   </div>
-                  <div class="col col-20">
+                  <div class="col col-25">
+                    <button class="button icon ion-edit" ng-click="modifyTeam({{$index}})"></button>
                     <button class="button icon ion-trash-a" ng-click="deleteTeam({{team.number}})"></button>
                   </div>
                 </div>
