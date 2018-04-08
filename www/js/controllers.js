@@ -784,8 +784,34 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     }
     
     $scope.saveTeam = function(teamNo, teamName) {
-      alert("Teszt: TeamNo=" + teamNo + " Name=" + teamName);
-      
+      var ref = firebase.database().ref().child("Events/0/Teams");
+      var teamArray = $firebaseArray(ref);
+      teamArray.$loaded().then(function() {
+        // Check if teamnumber exists
+        var teamExists = false;
+        var teamIndex = -1;
+        angular.forEach(teamArray, function(value, key) {
+          if (value.number == teamNo) {
+            teamExists = true;
+            teamIndex = key;
+          }
+        });
+
+        if (teamExists) {
+          // Team exists -> update name
+          teamArray[teamIndex].name = teamName;
+          teamArray.$save(teamIndex);
+        } else {
+          // Team not exists -> add new
+          ref.child(teamNo).set({ name: teamName, number: teamNo })/*.then(function(){
+            $scope.inTeamName="";
+            $scope.inTeamNumber="";
+            console.log("Team added"); 
+          })*/;
+          $scope.inTeamName="";
+          $scope.inTeamNumber="";
+        }
+      })
     }
 
 }])
