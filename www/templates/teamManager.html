@@ -1,0 +1,44 @@
+<ion-view title="Team Manager">
+  <ion-content padding="true" class="has-header">
+    <div ng-controller="teamManagerCtrl" class="padding">
+      <div class="row">
+        <div class="col col-50">
+          <ion-scroll direction="y" style="height:85vh">
+            <ion-card ng-repeat="team in teamList | orderBy:'number'">
+              <div ng-if="team != null">
+                <div class="row">
+                  <div class="col col-75">
+                    <b>#{{team.number}}</b> {{team.name}}
+                  </div>
+                  <div class="col col-25">
+                    <button class="button icon ion-edit" ng-click="modifyTeam({{$index}})"></button>
+                    <button class="button icon ion-trash-a" ng-click="deleteTeam({{team.number}})"></button>
+                  </div>
+                </div>
+              </div>
+            </ion-card>
+          </ion-scroll>
+        </div>
+        <div class="col col-50">
+          <form name="teamEditForm" novalidate>
+            <div class="list">
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Team number</span>
+                <input name= "inTeamNumber" ng-model="inTeamNumber" type="number" placeholder="####" ng-maxlength="4" required>
+              </label>
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Team name</span>
+                <input name="inTeamName" ng-model="inTeamName" type="text" placeholder="Team name" required>
+              </label>
+            </div>
+            <div class="row">
+              <div class="col col-100">
+                <button class="button icon-left ion-plus-round" ng-disabled="teamEditForm.$invalid" ng-click="saveTeam(inTeamNumber,inTeamName)" >Add</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

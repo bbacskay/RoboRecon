@@ -39,6 +39,16 @@ angular.module('app.routes', [])
       }
     }
   })
+
+  .state('menu.teamManager', {
+    url: '/teamManager ',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/teamManager.html',
+        controller: 'teamManagerCtrl'
+      }
+    }
+  })
   
   .state('menu.burgerMinder', {
     url: '/burgerMinder',

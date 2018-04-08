@@ -751,5 +751,74 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
   $interval($scope.refresh, 5000);
   
 }])
+
+.controller('teamManagerCtrl', ['$scope', '$stateParams', '$firebaseArray', '$interval',
+  function ($scope, $stateParams, $firebaseArray, $interval) {
+
+    $scope.loadTeamList = function() {
+      var ref = firebase.database().ref().child("Events/0/Teams");
+      var teams = $firebaseArray(ref);
+      teams.$loaded().then(function() {
+        $scope.teamList = teams;
+      }).catch(function(error) {
+        console.log("Error:", error);
+      });
+    }
+
+    $scope.loadTeamList();
+
+    $scope.deleteTeam = function(teamNo) {
+      console.log("Delete team #" + teamNo);
+      var ref = firebase.database().ref();
+      ref.child("Events/0/Teams/" + teamNo).remove(function (error) {
+        if (!error) {
+          // No error - removed
+          console.log("team #" + teamNo + " deleted.");
+        } else {
+          console.log("Remove error: " + error)
+        }
+      }).then(function(){
+        $scope.loadTeamList();
+        return true;
+      });
+    }
+    
+    $scope.saveTeam = function(teamNo, teamName) {
+      var ref = firebase.database().ref().child("Events/0/Teams");
+      var teamArray = $firebaseArray(ref);
+      teamArray.$loaded().then(function() {
+        // Check if teamnumber exists
+        var teamExists = false;
+        var teamIndex = -1;
+        angular.forEach(teamArray, function(value, key) {
+          if (value.number == teamNo) {
+            teamExists = true;
+            teamIndex = key;
+          }
+        });
+
+        if (teamExists) {
+          // Team exists -> update name
+          teamArray[teamIndex].name = teamName;
+          teamArray.$save(teamIndex);
+        } else {
+          // Team not exists -> add new
+          ref.child(teamNo).set({ name: teamName, number: teamNo })/*.then(function(){
+            $scope.inTeamName="";
+            $scope.inTeamNumber="";
+            console.log("Team added"); 
+          })*/;
+          $scope.inTeamName="";
+          $scope.inTeamNumber="";
+        }
+      })
+    }
+
+    $scope.modifyTeam = function(teamIndex) {
+      $scope.inTeamNumber = $scope.teamList[teamIndex].number;
+      $scope.inTeamName   = $scope.teamList[teamIndex].name;
+    }
+
+}])
    
 .controller('menuCtrl', ['$scope', '$stateParams', function ($scope, $stateParams) { }]);
