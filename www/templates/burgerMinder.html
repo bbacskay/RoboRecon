@@ -5,10 +5,18 @@
       <ion-card ng-repeat="overview in matchOverviews | orderBy:'-'">
         <div ng-if="overview != null">
           <div class="item item-divider">
-            <h2>Match #{{overview.matchNum}}</h2>
+            <div class="row">
+              <div class="col col-80">
+                <h2>Match #{{overview.matchNum}}</h2>
+              </div>
+              <div class="col">
+                <button class="button icon-left ion-trash-a" ng-click="deleteMatch({{overview.matchNum}})"> Delete match</button>
+              </div>
+            </div>
           </div>
           <div class="item item-text-wrap">
             <div class="row" ng-repeat="scout in overview.scouts">
+              <div class="col-10"><button class="button icon-left ion-trash-a" ng-click="deleteMatchTeam({{overview.matchNum}},{{scout.teamNum}})"></button></div>
               <div class="col-33"><p><strong>Scout:</strong> {{scout.name}}</p></div>
               <div class="col-33"><p><strong>Team:</strong> {{scout.teamNum}}</p></div>
               </tr>

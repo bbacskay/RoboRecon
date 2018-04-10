@@ -750,6 +750,32 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
   $scope.refresh();
   $interval($scope.refresh, 5000);
   
+  $scope.deleteMatch = function(matchNo) {
+    console.log("Delete match #" + matchNo);
+    var ref = firebase.database().ref();
+    ref.child("Events/0/Matches/" + matchNo).remove(function (error) {
+      if (!error) {
+        // No error - removed
+        console.log("match #" + matchNo + " deleted.");
+      } else {
+        console.log("Remove error: " + error)
+      }
+    })
+  }
+
+  $scope.deleteMatchTeam = function(matchNo, teamNo) {
+    console.log("Delete team " + teamNo + " in match #" + matchNo);
+    var ref = firebase.database().ref();
+    ref.child("Events/0/Matches/" + matchNo + "/Teams/" + teamNo).remove(function (error) {
+      if (!error) {
+        // No error - removed
+        console.log("Team " + teamNo + " in match #" + matchNo + " deleted.");
+      } else {
+        console.log("Remove error: " + error)
+      }
+    })
+  }
+
 }])
 
 .controller('teamManagerCtrl', ['$scope', '$stateParams', '$firebaseArray', '$interval',
