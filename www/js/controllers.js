@@ -168,6 +168,10 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
       for (i=0;i<$scope.numMatches.length;i++) {
         $scope.numMatches[i] = $scope.actMatch-1 + i;
       }
+
+      var unwatch = obj.$watch(function() {
+        $scope.loadNumMatches();
+      })
     }).catch(function(error) {
       console.log("Error:", error);
     });

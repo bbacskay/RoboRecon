@@ -18,10 +18,10 @@
             <label class="item item-select">
               <span class="input-label">Match Number</span>
               <select 
+                name="matchNum"
                 ng-model="matchNum"
-                ng-change="selectTeamMatchScout()">
-                <option 
-                  ng-repeat="i in numMatches track by $index">{{i}}</option>
+                ng-options="match for match in numMatches"
+                ng-change="selectTeamMatchScout()"></select>
               </select>
             </label>
           </div>
