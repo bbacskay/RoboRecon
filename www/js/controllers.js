@@ -654,7 +654,18 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
    * that have been answered: AQ1, AQ2, AQ3, AQ4, AQ5, EQ1, EQ2, and EQ3
    */
    
+  $scope.adminMode=false;
 
+  $scope.enableAdmin = function() {
+    if ($scope.adminPassword == "Hardcore") {
+      $scope.adminMode = true;
+    }
+  }
+
+  $scope.disableAdmin = function() {
+    $scope.adminMode = false;
+    $scope.adminPassword = "";
+  }
 
   $scope.refresh = function() {
     var refMatches = firebase.database().ref().child("Events/0/Matches");
