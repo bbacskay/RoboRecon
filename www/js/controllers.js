@@ -146,7 +146,7 @@ function ($scope, $stateParams, $firebaseArray) {
 */
 
    
-.controller('matchScoutingCtrl', ['$scope', '$stateParams', '$firebaseArray', '$firebaseObject', '$cordovaFile',
+.controller('matchScoutingCtrl', ['$scope', '$stateParams', '$firebaseArray', '$firebaseObject', '$cordovaFile', 
 function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
   
   $scope.loadNumMatches = function() {
@@ -646,24 +646,26 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
   
 }])
 
-.controller('burgerMinderCtrl', ['$scope', '$stateParams', '$firebaseArray', '$cordovaFile', '$cordovaToast', '$interval',
-  function ($scope, $stateParams, $firebaseArray, $cordovaFile, $cordovaToast, $interval) {
+.controller('burgerMinderCtrl', ['$scope', '$stateParams', '$firebaseArray', '$cordovaFile', '$cordovaToast', '$interval', 'CommonData',
+  function ($scope, $stateParams, $firebaseArray, $cordovaFile, $cordovaToast, $interval, CommonData) {
     
   /* This method will pull together an overview for each match, including the
    * match number, team number, scout name, and the % of the following questions
    * that have been answered: AQ1, AQ2, AQ3, AQ4, AQ5, EQ1, EQ2, and EQ3
    */
    
-  $scope.adminMode=false;
+  $scope.adminMode=CommonData.getAdminMode();
 
   $scope.enableAdmin = function() {
     if ($scope.adminPassword == "Hardcore") {
       $scope.adminMode = true;
+      CommonData.setAdminMode($scope.adminMode);
     }
   }
 
   $scope.disableAdmin = function() {
     $scope.adminMode = false;
+    CommonData.setAdminMode($scope.adminMode);
     $scope.adminPassword = "";
   }
 
