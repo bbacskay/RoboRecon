@@ -146,7 +146,7 @@ function ($scope, $stateParams, $firebaseArray) {
 */
 
    
-.controller('matchScoutingCtrl', ['$scope', '$stateParams', '$firebaseArray', '$firebaseObject', '$cordovaFile',
+.controller('matchScoutingCtrl', ['$scope', '$stateParams', '$firebaseArray', '$firebaseObject', '$cordovaFile', 
 function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
   
   $scope.loadNumMatches = function() {
@@ -646,15 +646,28 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
   
 }])
 
-.controller('burgerMinderCtrl', ['$scope', '$stateParams', '$firebaseArray', '$cordovaFile', '$cordovaToast', '$interval',
-  function ($scope, $stateParams, $firebaseArray, $cordovaFile, $cordovaToast, $interval) {
+.controller('burgerMinderCtrl', ['$scope', '$stateParams', '$firebaseArray', '$cordovaFile', '$cordovaToast', '$interval', 'CommonData',
+  function ($scope, $stateParams, $firebaseArray, $cordovaFile, $cordovaToast, $interval, CommonData) {
     
   /* This method will pull together an overview for each match, including the
    * match number, team number, scout name, and the % of the following questions
    * that have been answered: AQ1, AQ2, AQ3, AQ4, AQ5, EQ1, EQ2, and EQ3
    */
    
+  $scope.adminMode=CommonData.getAdminMode();
 
+  $scope.enableAdmin = function() {
+    if ($scope.adminPassword == "Hardcore") {
+      $scope.adminMode = true;
+      CommonData.setAdminMode($scope.adminMode);
+    }
+  }
+
+  $scope.disableAdmin = function() {
+    $scope.adminMode = false;
+    CommonData.setAdminMode($scope.adminMode);
+    $scope.adminPassword = "";
+  }
 
   $scope.refresh = function() {
     var refMatches = firebase.database().ref().child("Events/0/Matches");
@@ -750,6 +763,32 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
   $scope.refresh();
   $interval($scope.refresh, 5000);
   
+  $scope.deleteMatch = function(matchNo) {
+    console.log("Delete match #" + matchNo);
+    var ref = firebase.database().ref();
+    ref.child("Events/0/Matches/" + matchNo).remove(function (error) {
+      if (!error) {
+        // No error - removed
+        console.log("match #" + matchNo + " deleted.");
+      } else {
+        console.log("Remove error: " + error)
+      }
+    })
+  }
+
+  $scope.deleteMatchTeam = function(matchNo, teamNo) {
+    console.log("Delete team " + teamNo + " in match #" + matchNo);
+    var ref = firebase.database().ref();
+    ref.child("Events/0/Matches/" + matchNo + "/Teams/" + teamNo).remove(function (error) {
+      if (!error) {
+        // No error - removed
+        console.log("Team " + teamNo + " in match #" + matchNo + " deleted.");
+      } else {
+        console.log("Remove error: " + error)
+      }
+    })
+  }
+
 }])
 
 .controller('teamManagerCtrl', ['$scope', '$stateParams', '$firebaseArray', '$interval',
