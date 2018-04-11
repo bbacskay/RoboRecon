@@ -4,22 +4,22 @@
       <div class="row">
         <div class="col col-50">
           <ion-scroll direction="y" style="height:85vh">
-            <ion-card ng-repeat="team in teamList | orderBy:'number'">
+            <div class="card" ng-repeat="team in teamList | orderBy:'number'">
               <div ng-if="team != null">
                 <div class="row">
-                  <div class="col col-75">
+                  <div class="col col-80">
                     <b>#{{team.number}}</b> {{team.name}}
                   </div>
-                  <div class="col col-25">
+                  <div class="col">
                     <button class="button icon ion-edit" ng-click="modifyTeam({{$index}})"></button>
                     <button class="button icon ion-trash-a" ng-click="deleteTeam({{team.number}})"></button>
                   </div>
                 </div>
               </div>
-            </ion-card>
+            </div>
           </ion-scroll>
         </div>
-        <div class="col col-50">
+        <div class="col">
           <form name="teamEditForm" novalidate>
             <div class="list">
               <label class="item item-input item-stacked-label">
