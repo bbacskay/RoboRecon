@@ -7,10 +7,15 @@
         </div>
         <div class="item item-text-wrap">
           <form name="adminForm" novalidate>
-            <label class="item item-input">
+            <label ng-hide="adminMode" class="item item-input">
               <span class="input-label">Password</span>
-              <input type="password" ng-model="adminPassword">
+              <input type="password" ng-model="adminPassword" placeholder="password">
             </label>
+            <div ng-hide="!adminMode" class="item item-input">
+                <button class="button" ng-click="actMatchDec()" ng-disabled="actMatch<=1">-</button>
+                <span class="input-label">Actual match number: {{actMatch}}</span>
+                <button class="button" ng-click="actMatchInc()" ng-disabled="actMatch>=numMatches">+</button>
+            </div>
             <button ng-hide="adminMode" class="button button-positive" ng-click="enableAdmin()">Enable admin</button>
             <button ng-hide="!adminMode" class="button button-assertive" ng-click="disableAdmin()">Disable admin</button>
           </form>
