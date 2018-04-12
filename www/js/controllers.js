@@ -650,8 +650,8 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
   
 }])
 
-.controller('burgerMinderCtrl', ['$scope', '$stateParams', '$firebaseArray', '$cordovaFile', '$cordovaToast', '$interval', 'CommonData',
-  function ($scope, $stateParams, $firebaseArray, $cordovaFile, $cordovaToast, $interval, CommonData) {
+.controller('burgerMinderCtrl', ['$scope', '$stateParams', '$firebaseArray', '$firebaseObject', '$cordovaFile', '$cordovaToast', '$interval', 'CommonData',
+  function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile, $cordovaToast, $interval, CommonData) {
     
   /* This method will pull together an overview for each match, including the
    * match number, team number, scout name, and the % of the following questions
@@ -659,6 +659,25 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
    */
    
   $scope.adminMode=CommonData.getAdminMode();
+  $scope.actMatch=1;
+
+  $scope.loadNumMatches = function() {
+    var ref = firebase.database().ref().child("Events/0/");
+    var obj = $firebaseObject(ref);
+    obj.$loaded().then(function() {
+      $scope.numMatches = obj.numMatches;
+      $scope.actMatch   = obj.actMatch;
+    }).catch(function(error) {
+      console.log("Error:", error);
+    });
+  }
+  $scope.loadNumMatches();
+
+  $scope.setActMatches = function() {
+    var refMatchNum = firebase.database().ref().child("Events/0");
+    refMatchNum.update({"actMatch" : $scope.actMatch});
+  }
+  
 
   $scope.enableAdmin = function() {
     if ($scope.adminPassword == "Hardcore") {
@@ -671,6 +690,20 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     $scope.adminMode = false;
     CommonData.setAdminMode($scope.adminMode);
     $scope.adminPassword = "";
+  }
+
+  $scope.actMatchInc = function() {
+    if ($scope.actMatch < $scope.numMatches) {
+      $scope.actMatch += 1;
+      $scope.setActMatches();
+    }
+  }
+
+  $scope.actMatchDec = function() {
+    if ($scope.actMatch > 1) {
+      $scope.actMatch -= 1;
+      $scope.setActMatches();
+    }
   }
 
   $scope.refresh = function() {
