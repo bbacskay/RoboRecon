@@ -659,7 +659,7 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
   
 }])
 
-.controller('burgerMinderCtrl', ['$scope', '$stateParams', '$firebaseArray', '$firebaseObject', '$cordovaFile', '$cordovaToast', '$interval', 'CommonData',
+.controller('scoutManagerCtrl', ['$scope', '$stateParams', '$firebaseArray', '$firebaseObject', '$cordovaFile', '$cordovaToast', '$interval', 'CommonData',
   function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile, $cordovaToast, $interval, CommonData) {
     
   /* This method will pull together an overview for each match, including the
