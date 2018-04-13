@@ -50,12 +50,12 @@ angular.module('app.routes', [])
     }
   })
   
-  .state('menu.burgerMinder', {
-    url: '/burgerMinder',
+  .state('menu.scoutManager', {
+    url: '/scoutManager',
     views: {
       'side-menu21': {
-        templateUrl: 'templates/burgerMinder.html',
-        controller: 'burgerMinderCtrl'
+        templateUrl: 'templates/scoutManager.html',
+        controller: 'scoutManagerCtrl'
       }
     }
   })
