@@ -221,16 +221,20 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
   
   /* Updated for season 2018 */
   $scope.updateField = function(fieldName) {
-    var filePath = "file:///storage/emulated/0/";
+    //Platform dependent path externalApplication
+    //On Android: file:///storage/emulated/0/Android/data/io.ionic.devapp/
+    var filePath = cordova.file.externalApplicationStorageDirectory;
+    var fileName = "Match-" + $scope.matchNum + "-Team-" + $scope.team.number + "-Scout-" + $scope.scout.name + ".csv";
     var saveData = $scope.teamSelected + "\t" + $scope.matchNumSelected + "\t"; 
     saveData += $scope.scoutSelected + "\t" + $scope.AQ1 + "\t" + $scope.AQ2;
     saveData += "\t" + $scope.AQ3 + "\t"+ $scope.AQ4 + "\t" + $scope.AQ5;
     saveData += "\t" + $scope.TQ1 + "\t" + $scope.TQ2;
     saveData += "\t" + $scope.TQ3 + "\t" + $scope.EQ1 + "\t" + $scope.EQ2;
     saveData += "\t" + $scope.EQ3 + "\r\n";
-    $cordovaFile.writeFile(filePath, "Match-" + $scope.matchNum + "-Team-" + $scope.teamSelected + "-Scout-" + $scope.scoutSelected + ".csv", saveData, true)
+    $cordovaFile.writeFile(filePath, fileName, saveData, true)
       .then(function (success) {
-        console.log("Text successfully written to Match Scouting file");
+        console.log("Text successfully written to Match Scouting file: " +
+                    filePath+fileName);
       }, function (error) {
         console.log("Problem writing text to Match file");
         console.log("Error message: " + JSON.stringify(error));
@@ -452,7 +456,7 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
   
   /* Updated for season 2018 */
   $scope.exportData = function() {
-    var filePath = "file:///storage/emulated/0/";
+
     
     /* Pit data not being collected in 2018
     var exportPitData = "Team #\tPQ3\tPQ6\tPQ10\tPQ13\tPQ14A\tPQ14B\tPQ14C\t";
@@ -618,20 +622,25 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
       */
       $scope.exportMatchData = exportMatchData;
     })
-    .then(function() {
-      $cordovaFile.writeFile(filePath, "MatchScouting.csv", exportMatchData, true)
+    .catch(function(error) {
+      console.log("Error:", error);
+    });
+  }
+  
+  $scope.exportToFile = function() {
+    //Platform dependent path externalApplication
+    //On Android: file:///storage/emulated/0/Android/data/io.ionic.devapp/
+    var filePath = cordova.file.externalApplicationStorageDirectory;
+    $cordovaFile.writeFile(filePath, "MatchScouting.csv", $scope.exportMatchData, true)
         .then(function (success) {
           console.log("Text successfully written to Match Scouting file");
         }, function (error) {
           console.log("Problem writing text to Match file");
           console.log("Error message: " + JSON.stringify(error));
         });  
-    })
-    .catch(function(error) {
-      console.log("Error:", error);
-    });
+
   }
-  
+
   $scope.loadNumMatches = function() {
     var ref = firebase.database().ref().child("Events/0/");
     var obj = $firebaseObject(ref);
