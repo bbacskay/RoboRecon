@@ -1,7 +1,7 @@
 {
-  "name": "thehindenburg",
+  "name": "roborecon",
   "version": "1.1.1",
-  "description": "TheHindenburg: An Ionic project",
+  "description": "RoboRecon: A scouting project",
   "dependencies": {
     "cordova-plugin-device": "^2.0.1",
     "cordova-plugin-file": "^6.0.1",
