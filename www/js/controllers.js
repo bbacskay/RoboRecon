@@ -225,12 +225,12 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject, $cordovaFile) {
     //On Android: file:///storage/emulated/0/Android/data/io.ionic.devapp/
     var filePath = cordova.file.externalApplicationStorageDirectory;
     var fileName = "Match-" + $scope.matchNum + "-Team-" + $scope.team.number + "-Scout-" + $scope.scout.name + ".csv";
-    var saveData = $scope.teamSelected + "\t" + $scope.matchNumSelected + "\t"; 
-    saveData += $scope.scoutSelected + "\t" + $scope.AQ1 + "\t" + $scope.AQ2;
-    saveData += "\t" + $scope.AQ3 + "\t"+ $scope.AQ4 + "\t" + $scope.AQ5;
-    saveData += "\t" + $scope.TQ1 + "\t" + $scope.TQ2;
-    saveData += "\t" + $scope.TQ3 + "\t" + $scope.EQ1 + "\t" + $scope.EQ2;
-    saveData += "\t" + $scope.EQ3 + "\r\n";
+    var saveData = "Team #\tMatch #\tScout\tAQ1\tAQ2\tAQ3\tAQ4\tAQ5\tTQ1\tTQ2\tTQ3\tEQ1\tEQ2\tEQ3\r\n";
+    saveData += $scope.team.number + "\t" + $scope.matchNum + "\t" + $scope.scout.name + "\t"; 
+    saveData += $scope.AQ1 + "\t" + $scope.AQ2 + "\t" + $scope.AQ3 + "\t" + $scope.AQ4 + "\t" + $scope.AQ5 + "\t";
+    saveData += $scope.TQ1 + "\t" + $scope.TQ2 + "\t" + $scope.TQ3 + "\t";
+    saveData += $scope.EQ1 + "\t" + $scope.EQ2 + "\t" + $scope.EQ3 + "\r\n";
+    
     $cordovaFile.writeFile(filePath, fileName, saveData, true)
       .then(function (success) {
         console.log("Text successfully written to Match Scouting file: " +
